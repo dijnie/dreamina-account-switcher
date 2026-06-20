@@ -53,7 +53,9 @@ body > *:not(.glow) { position: relative; z-index: 1; }
   justify-content: space-between;
   margin-bottom: 14px;
 }
-.brand { display: flex; align-items: center; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand__text { min-width: 0; }
+.brand__text h1, .brand__text p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .brand__mark {
   display: grid;
   place-items: center;
@@ -75,6 +77,8 @@ body > *:not(.glow) { position: relative; z-index: 1; }
 .brand__text p { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
 
 .count-pill {
+  flex: none;
+  white-space: nowrap;
   font-size: 11px;
   color: var(--muted);
   background: var(--panel);
@@ -119,12 +123,15 @@ body > *:not(.glow) { position: relative; z-index: 1; }
   display: block;
   overflow-y: auto;
   animation: panel-in 0.2s ease;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  scrollbar-width: none; /* hide scrollbar: no gap, no width jump; scroll by wheel */
 }
-.panel.is-active::-webkit-scrollbar { width: 8px; }
-.panel.is-active::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+.panel.is-active::-webkit-scrollbar { width: 0; height: 0; }
 @keyframes panel-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* Manage tab: textarea grows to fill the fixed-height popup, buttons pinned below */
+#panel-manage.is-active { display: flex; flex-direction: column; }
+#panel-manage .field-label,
+#panel-manage .toolbar { flex: none; }
 
 .field-label {
   display: flex;
@@ -144,8 +151,9 @@ body > *:not(.glow) { position: relative; z-index: 1; }
 
 textarea {
   width: 100%;
-  height: 108px;
-  resize: vertical;
+  flex: 1;            /* fill remaining height in the Manage tab */
+  min-height: 140px;
+  resize: none;
   padding: 10px;
   font-family: "Sora", ui-monospace, monospace;
   font-size: 12px;
@@ -195,7 +203,7 @@ textarea:focus {
 .btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ---- account list ---- */
-.list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 
 .acct {
   position: relative;
