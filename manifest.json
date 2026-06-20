@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Dreamina account switcher",
+  "version": "1.0.0",
+  "description": "Đổi nhanh tài khoản dreamina.capcut.com: clear cookies → tự điền → login.",
+  "permissions": ["storage", "cookies", "tabs", "debugger"],
+  "host_permissions": ["*://*.capcut.com/*"],
+  "icons": { "16": "icon.png", "48": "icon.png", "128": "icon.png" },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Dreamina account switcher",
+    "default_icon": "icon.png"
+  }
+}
