@@ -102,8 +102,3 @@ worktrees/
 plans/
 release-manifest.json
 .repomixignore
-
-# local debug screenshots
-err*.png
-*.shot*.png
-.preview.png
