@@ -1,0 +1,37 @@
+name: Build extension zip
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package extension (runtime files only)
+        run: |
+          zip -r dreamina-account-switcher.zip \
+            manifest.json background.js accounts.js \
+            popup.html popup.css popup.js icon.png
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dreamina-account-switcher
+          path: dreamina-account-switcher.zip
+
+      - name: Publish/update "latest" release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest build
+          body: Bản đóng gói tự động từ commit ${{ github.sha }}.
+          files: dreamina-account-switcher.zip
+          prerelease: true
+          make_latest: true
