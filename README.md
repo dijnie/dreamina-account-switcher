@@ -94,5 +94,3 @@ clear cookies *.capcut.com   →   mở /ai-tool/home + attach debugger
 - [x] Export backup + CI đóng gói `.zip`
 - [ ] Tùy chọn mã hóa mật khẩu bằng master password
 - [ ] Tự nhận diện account đang active từ phiên đăng nhập
-
-<div align="center"><sub>Công cụ cá nhân · dùng có trách nhiệm</sub></div>
