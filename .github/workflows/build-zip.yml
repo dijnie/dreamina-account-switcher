@@ -26,18 +26,16 @@ jobs:
           name: dreamina-account-switcher
           path: dreamina-account-switcher.zip
 
-      # Remove old release+tag so the recreated one is dated at this push.
-      - name: Remove previous "latest" release
-        run: gh release delete latest --cleanup-tag --yes || true
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Read manifest version
+        id: meta
+        run: echo "version=$(node -p "require('./manifest.json').version")" >> "$GITHUB_OUTPUT"
 
-      - name: Publish "latest" release
+      # New versioned release each push; old ones are kept. Newest = "Latest".
+      - name: Publish versioned release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
-          name: Latest build
+          tag_name: v${{ steps.meta.outputs.version }}-build.${{ github.run_number }}
+          name: v${{ steps.meta.outputs.version }} · build ${{ github.run_number }}
           body: Bản đóng gói tự động từ commit ${{ github.sha }}.
           files: dreamina-account-switcher.zip
-          prerelease: true
           make_latest: true
